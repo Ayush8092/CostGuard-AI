@@ -1,0 +1,26 @@
+{
+  "stage": "gold",
+  "created_at": "2026-06-28T15:04:32.643798+00:00",
+  "steps": [
+    {
+      "step": "load_silver",
+      "telemetry_rows": 1,
+      "pricing_rows": 130
+    },
+    {
+      "step": "instance_matching",
+      "vms_matched": 0,
+      "vms_flagged_for_review": 1
+    },
+    {
+      "step": "cost_computation",
+      "rows_with_cost": 0,
+      "rows_unpriced_no_rate_match": 1
+    },
+    {
+      "step": "write_gold",
+      "gold_rows": 1,
+      "manual_review_rows": 1
+    }
+  ]
+}

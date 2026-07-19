@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #0F1419;
+  color: #E8EDF2;
+}
+
+.font-data {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #0F1419; }
+::-webkit-scrollbar-thumb { background: #324158; border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: #3d4f6b; }
+
+/* Focus ring */
+:focus-visible { outline: 2px solid #3DDC97; outline-offset: 2px; }
+
+/* Textarea auto-resize feel */
+textarea { overflow-y: hidden; }
+
+/* Smooth transitions */
+*, *::before, *::after { transition-property: color, background-color, border-color, opacity; transition-duration: 150ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

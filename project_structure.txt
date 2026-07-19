@@ -1,0 +1,163 @@
+costguard
+├── backend
+│   ├── app
+│   │   ├── api
+│   │   │   ├── routes
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── anomalies.py
+│   │   │   │   ├── auth.py
+│   │   │   │   ├── business_metrics.py
+│   │   │   │   ├── copilot.py
+│   │   │   │   ├── dashboard.py
+│   │   │   │   ├── forecast.py
+│   │   │   │   ├── monitoring.py
+│   │   │   │   ├── recommendations.py
+│   │   │   │   ├── reports.py
+│   │   │   │   ├── simulator.py
+│   │   │   │   ├── upload.py
+│   │   │   │   └── waste.py
+│   │   │   ├── __init__.py
+│   │   │   └── deps.py
+│   │   ├── core
+│   │   │   ├── __init__.py
+│   │   │   ├── cache.py
+│   │   │   ├── config.py
+│   │   │   ├── rate_limit.py
+│   │   │   └── security.py
+│   │   ├── data
+│   │   │   ├── bronze
+│   │   │   │   ├── bitbrains_v1
+│   │   │   │   │   └── Bitbrains_demo_1.xlsx
+│   │   │   │   └── pricing_v1
+│   │   │   │       ├── demo_ap_south_2.xlsx
+│   │   │   │       ├── demo_data.xlsx
+│   │   │   │       └── Prediction_RFG__Red_Hat_Enterprise_Linux__c5_xlarge.csv
+│   │   │   ├── gold
+│   │   │   │   └── gold_v3
+│   │   │   │       ├── gold_bitbrains.csv
+│   │   │   │       ├── manifest.json
+│   │   │   │       └── manual_review_vms.csv
+│   │   │   ├── silver
+│   │   │   │   ├── bitbrains_cleaned_v2
+│   │   │   │   │   ├── bitbrains_daily_silver.csv
+│   │   │   │   │   └── manifest.json
+│   │   │   │   └── pricing_cleaned_v2
+│   │   │   │       ├── manifest.json
+│   │   │   │       └── pricing_silver.csv
+│   │   │   ├── synthetic
+│   │   │   │   ├── billing_data.csv
+│   │   │   │   ├── ground_truth_anomalies.csv
+│   │   │   │   └── waste_labels.csv
+│   │   │   ├── uploads
+│   │   │   ├── __init__.py
+│   │   │   ├── csv_upload.py
+│   │   │   ├── generate_data.py
+│   │   │   ├── instance_specs.py
+│   │   │   ├── pricing_classifier.py
+│   │   │   ├── pricing_silver.py
+│   │   │   ├── telemetry_cost_engine.py
+│   │   │   ├── telemetry_silver.py
+│   │   │   └── validation.py
+│   │   ├── db
+│   │   │   ├── __init__.py
+│   │   │   ├── models.py
+│   │   │   └── session.py
+│   │   ├── features
+│   │   │   ├── __init__.py
+│   │   │   ├── engineering.py
+│   │   │   └── feature_store.py
+│   │   ├── llm
+│   │   │   ├── __init__.py
+│   │   │   ├── advisor.py
+│   │   │   ├── client.py
+│   │   │   ├── copilot.py
+│   │   │   ├── simulator.py
+│   │   │   └── weekly_report.py
+│   │   ├── mlops
+│   │   │   ├── __init__.py
+│   │   │   ├── drift_detection.py
+│   │   │   └── model_registry.py
+│   │   ├── models
+│   │   │   ├── __init__.py
+│   │   │   ├── anomaly_detection.py
+│   │   │   ├── explainability.py
+│   │   │   ├── forecasting.py
+│   │   │   ├── scoring.py
+│   │   │   └── waste_classification.py
+│   │   ├── rag
+│   │   │   ├── __init__.py
+│   │   │   ├── faiss_store.py
+│   │   │   ├── instance_lookup.py
+│   │   │   └── knowledge_corpus.py
+│   │   ├── training
+│   │   │   ├── anomaly_training.py
+│   │   │   ├── classifier_training.py
+│   │   │   ├── forecast_training.py
+│   │   │   ├── model_store.py
+│   │   │   └── train_all.py
+│   │   ├── workers
+│   │   │   ├── __init__.py
+│   │   │   ├── csv_processor.py
+│   │   │   ├── nightly_inference.py
+│   │   │   ├── nightly_job.py
+│   │   │   └── scheduler.py
+│   │   ├── __init__.py
+│   │   └── main.py
+│   ├── migrations
+│   │   ├── versions
+│   │   │   └── 0001_initial.py
+│   │   ├── env.py
+│   │   ├── README
+│   │   └── script.py.mako
+│   ├── tests
+│   │   ├── locustfile.py
+│   │   └── summarize_load_test.py
+│   ├── alembic.ini
+│   ├── Dockerfile
+│   └── requirements.txt
+├── data
+│   └── uploads
+├── deploy
+│   └── nginx
+│       └── nginx.conf
+├── docs
+├── frontend
+│   ├── src
+│   │   ├── api
+│   │   │   └── client.js
+│   │   ├── components
+│   │   │   ├── AppShell.jsx
+│   │   │   ├── ChartColors.js
+│   │   │   ├── ConfidenceBadge.jsx
+│   │   │   ├── KpiCard.jsx
+│   │   │   ├── Status.jsx
+│   │   │   └── StatusBar.jsx
+│   │   ├── context
+│   │   │   └── AuthContext.jsx
+│   │   ├── pages
+│   │   │   ├── Anomalies.jsx
+│   │   │   ├── Copilot.jsx
+│   │   │   ├── CostSimulator.jsx
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Forecasting.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── ModelMonitoring.jsx
+│   │   │   ├── Recommendations.jsx
+│   │   │   ├── Reports.jsx
+│   │   │   ├── Settings.jsx
+│   │   │   └── WasteClassification.jsx
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   └── main.jsx
+│   ├── Dockerfile
+│   ├── index.html
+│   ├── nginx.conf
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── postcss.config.js
+│   ├── tailwind.config.js
+│   └── vite.config.js
+├── .env
+├── docker-compose.yml
+├── project_structure.py
+└── README.md

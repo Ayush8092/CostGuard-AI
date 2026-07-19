@@ -1,0 +1,30 @@
+{
+  "stage": "silver",
+  "created_at": "2026-06-28T14:57:39.939588+00:00",
+  "steps": [
+    {
+      "step": "load_bronze",
+      "row_count": 10
+    },
+    {
+      "step": "parse_datetime",
+      "dropped_bad_dates": 0,
+      "row_count": 10
+    },
+    {
+      "step": "drop_duplicates",
+      "dropped": 0,
+      "row_count": 10
+    },
+    {
+      "step": "handle_missing_values",
+      "nulls_before_fill": {},
+      "dropped_unfillable": 0,
+      "row_count": 10
+    },
+    {
+      "step": "resample_daily",
+      "row_count": 1
+    }
+  ]
+}

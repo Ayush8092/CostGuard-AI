@@ -1,0 +1,27 @@
+{
+  "stage": "pricing_silver",
+  "created_at": "2026-06-28T15:02:48.411196+00:00",
+  "files": [
+    {
+      "file": "app/data/bronze/pricing_v1/Prediction_RFG__Red_Hat_Enterprise_Linux__c5_xlarge.csv",
+      "classified_as": "prediction",
+      "needs_manual_mapping": false,
+      "rows_extracted": 116,
+      "rows_dropped_invalid_or_dupe": 0
+    },
+    {
+      "file": "app/data/bronze/pricing_v1/demo_ap_south_2.xlsx",
+      "classified_as": "on_demand",
+      "needs_manual_mapping": false,
+      "rows_extracted": 7,
+      "rows_dropped_invalid_or_dupe": 0
+    },
+    {
+      "file": "app/data/bronze/pricing_v1/demo_data.xlsx",
+      "classified_as": "spot",
+      "needs_manual_mapping": false,
+      "rows_extracted": 7,
+      "rows_dropped_invalid_or_dupe": 0
+    }
+  ]
+}
