@@ -92,7 +92,6 @@ docker-compose.override.yml
 # ==========================================
 data/model_artifacts/
 data/trained_models/
-models/
 checkpoints/
 *.pkl
 *.joblib
