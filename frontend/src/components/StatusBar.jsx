@@ -1,32 +1,44 @@
 import { useEffect, useState } from "react";
-// import api from "../api/client";
+import api from "../api/client";
 
 export default function StatusBar() {
     const [dbOk, setDbOk] = useState(null);
     const [redisOk, setRedisOk] = useState(null);
 
 useEffect(() => {
-  const BACKEND_URL =
-    import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+  let mounted = true;
 
-  function check() {
-    fetch(`${BACKEND_URL}/health/db`)
-      .then((r) => r.json())
-      .then((data) => setDbOk(data.status === "ok"))
-      .catch(() => setDbOk(false));
+  async function check() {
+    const [dbResult, redisResult] = await Promise.allSettled([
+      api.get("/health/db"),
+      api.get("/health/redis"),
+    ]);
 
-    fetch(`${BACKEND_URL}/health/redis`)
-      .then((r) => r.json())
-      .then((data) => setRedisOk(data.status === "ok"))
-      .catch(() => setRedisOk(false));
+    if (!mounted) return;
+
+    if (dbResult.status === "fulfilled") {
+      setDbOk(dbResult.value.data.status === "ok");
+    } else {
+      console.warn("DB health check failed:", dbResult.reason);
+    }
+
+    if (redisResult.status === "fulfilled") {
+      setRedisOk(redisResult.value.data.status === "ok");
+    } else {
+      console.warn("Redis health check failed:", redisResult.reason);
+    }
   }
 
   check();
 
   const id = setInterval(check, 30000);
 
-  return () => clearInterval(id);
+  return () => {
+    mounted = false;
+    clearInterval(id);
+  };
 }, []);
+
   const Dot = ({ ok, label, note }) => (
     <div className="flex items-center gap-1.5 text-[11px]" title={note}>
       <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
