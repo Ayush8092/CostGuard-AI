@@ -25,12 +25,17 @@ Interpretation of results:
 from __future__ import annotations
 
 import random
-
+import itertools
+import random
 from locust import HttpUser, TaskSet, between, task
 
+USER_EMAILS = [
+    f"user{i}@test.com"
+    for i in range(1, 201)
+]
 
-AUTH_EMAIL = "loadtest@costguard.local"
-AUTH_PASSWORD = "LoadTest1234"
+EMAIL_POOL = itertools.cycle(USER_EMAILS)
+AUTH_PASSWORD = "Password123!"
 
 COPILOT_QUESTIONS = [
     "Why did my bill increase?",
@@ -92,11 +97,14 @@ class CopilotTasks(TaskSet):
     @task(3)
     def ask_copilot(self):
         question = random.choice(COPILOT_QUESTIONS)
-        self.client.post(
+        with self.client.post(
             "/api/v1/copilot",
             json={"question": question},
             name="/copilot",
-        )
+            catch_response=True,
+        ) as response:
+            if response.status_code != 200:
+                response.failure("Copilot request failed")
 
     @task(2)
     def dashboard_kpis(self):
@@ -117,10 +125,13 @@ class CopilotTasks(TaskSet):
                 "window_days": 30,
             },
             name="/simulate",
-        )
+        ) 
+            
+
 
 
 class DashboardUser(HttpUser):
+    weight = 7
     """
     Represents a Viewer or light Analyst - mostly read-only dashboard
     browsing. 70% of the simulated user pool.
@@ -130,23 +141,28 @@ class DashboardUser(HttpUser):
     wait_time = between(1, 4)
 
     def on_start(self):
+        self.email = next(EMAIL_POOL)
         """Log in once per simulated user before running any tasks."""
-        form_data = {"username": AUTH_EMAIL, "password": AUTH_PASSWORD}
+        form_data = {"username": self.email, "password": AUTH_PASSWORD}
         resp = self.client.post(
             "/api/v1/auth/login",
             data=form_data,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
             name="/auth/login [setup]",
         )
-        if resp.status_code == 200:
-            token = resp.json().get("access_token", "")
-            self.client.headers.update({"Authorization": f"Bearer {token}"})
-        # If login fails (e.g. user not seeded yet), subsequent requests
-        # will receive 401 and be counted as errors - this is correct
-        # behaviour, not a test bug.
+        if resp.status_code != 200:
+            raise RuntimeError(
+                f"Login failed for {self.email}: "
+                f"{resp.status_code} {resp.text}"
+            )
+        
+        token = resp.json()["access_token"]
+        self.client.headers.update({"Authorization": f"Bearer {token}"})
+
 
 
 class CopilotUser(HttpUser):
+    weight = 3
     """
     Represents an Analyst who actively uses the Copilot. 30% of the
     simulated user pool. Higher inter-request wait to reflect realistic
@@ -157,13 +173,22 @@ class CopilotUser(HttpUser):
     wait_time = between(5, 15)
 
     def on_start(self):
-        form_data = {"username": AUTH_EMAIL, "password": AUTH_PASSWORD}
+        self.email = next(EMAIL_POOL)
+        form_data = {"username": self.email, "password": AUTH_PASSWORD}
         resp = self.client.post(
             "/api/v1/auth/login",
             data=form_data,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
             name="/auth/login [setup]",
         )
-        if resp.status_code == 200:
-            token = resp.json().get("access_token", "")
-            self.client.headers.update({"Authorization": f"Bearer {token}"})
+        
+        if resp.status_code != 200:
+            raise RuntimeError(
+                f"Login failed for {self.email}: "
+                f"({resp.status_code}) {resp.text}"
+            )
+
+        token = resp.json()["access_token"]
+
+        self.client.headers.update({
+            "Authorization": f"Bearer {token}"})
