@@ -49,4 +49,3 @@ tenacity==8.4.1
 # --- Testing / load testing ---
 pytest==8.2.2
 pytest-asyncio==0.23.7
-locust==2.29.0
